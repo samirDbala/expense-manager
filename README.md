@@ -26,12 +26,11 @@ You can create budgets, add expenses, and track how much you’ve spent — all 
 
 ---
 
-## ⚙️ Installation & Setup
+## 🚀 Setup
 
-Follow these steps to run the project on your local machine 👇
-
-git clone https://github.com/pritamdev-bit/PassOP.git
-cd password-manager
+```bash
+git clone https://github.com/samirDbala/expense-manager.git
+cd expense-manager
 npm install
 npm run dev
 
