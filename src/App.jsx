@@ -4,11 +4,11 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
 // Layouts
-import Main, { mainLoader } from "./layout/Main";
+import Main, { mainLoader } from "./layouts/Main";
 
 // Actions
-import { logoutAction } from "./action/logout";
-import { deleteBudget } from "./action/deleteBudget";
+import { logoutAction } from "./actions/logout";
+import { deleteBudget } from "./actions/deleteBudget";
 
 // Routes
 import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
