@@ -24,7 +24,9 @@ const AddBudgetForm = () => {
       if (!isMobile) {
         focusRef.current.focus();
       } else {
-        setTimeout(() => document.activeElement?.blur(), 100);
+        requestAnimationFrame(() => {
+          document.activeElement?.blur();
+        });
       }
     }
   }, [isSubmitting]);
