@@ -17,10 +17,17 @@ const AddBudgetForm = () => {
   useEffect(() => {
     if (!isSubmitting) {
       formRef.current.reset();
-      focusRef.current.focus();
+      // detect mobile device
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(
+        navigator.userAgent
+      );
+      if (!isMobile) {
+        focusRef.current.focus();
+      } else {
+        setTimeout(() => document.activeElement?.blur(), 100);
+      }
     }
   }, [isSubmitting]);
-
   return (
     <div className="form-wrapper">
       <h2 className="h3">Create Budget</h2>

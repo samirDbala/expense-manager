@@ -603,3 +603,33 @@ table a {
 .Toastify__toast-body {
   font-size: var(--fs-300);
 }
+
+/* Make toast small only on phones */
+@media screen and (max-width: 600px) {
+  .Toastify__toast-container {
+    top: 0.5rem !important;
+    right: 1.2rem !important; /* moved slightly left */
+    left: auto !important;
+  }
+
+  .Toastify__toast {
+    font-size: 0.55rem !important; /* slightly bigger text */
+    padding: 0.4rem 0.5rem !important; /* a bit more breathing room */
+    min-width: 130px !important;
+    width: auto !important;
+    border-radius: 6px !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .Toastify__toast-body {
+    font-size: 0.55rem !important; /* slightly larger */
+    line-height: 1.2;
+  }
+
+  .Toastify__toast-icon {
+    transform: none !important;
+    margin-right: 4px !important;
+    scale: 0.85; /* small icon */
+  }
+}

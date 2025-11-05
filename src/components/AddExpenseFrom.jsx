@@ -18,10 +18,19 @@ const AddExpenseFrom = ({ budgets }) => {
     if (!isSubmitting) {
       // clear form
       formRef.current.reset();
+      // detect if device is mobile
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(
+        navigator.userAgent
+      );
+      if (!isMobile) {
+        focusRef.current.focus();
+      } else {
+        setTimeout(() => document.activeElement?.blur(), 100);
+      }
       // reset focus
       focusRef.current.focus();
     }
-  });
+  }, [isSubmitting]);
 
   return (
     <div className="form-wrapper">
