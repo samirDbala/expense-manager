@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // Library
-import { ToastContainer } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 
 // Layouts
 import Main, { mainLoader } from "./layouts/Main";
@@ -65,7 +65,7 @@ function App() {
   return (
     <div className="App">
       <RouterProvider router={router} />
-      <ToastContainer />
+      <Toaster position="top-center" />
     </div>
   );
 }

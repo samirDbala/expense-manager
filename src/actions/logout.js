@@ -2,7 +2,7 @@
 import { redirect } from "react-router-dom";
 
 // library
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 // helpers
 import { deleteItem } from "../helpers";

@@ -2,7 +2,7 @@
 import { useLoaderData } from "react-router-dom";
 
 // library imports
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 // component imports
 import Table from "../components/Table";

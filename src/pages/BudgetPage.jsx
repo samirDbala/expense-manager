@@ -2,7 +2,7 @@
 import { useLoaderData } from "react-router-dom";
 
 // library
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 // components
 import BudgetItem from "../components/BudgetItem";

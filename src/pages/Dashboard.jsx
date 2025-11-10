@@ -2,7 +2,7 @@
 import { Link, useLoaderData } from "react-router-dom";
 
 // library imports
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 // components
 import Intro from "../components/Intro";

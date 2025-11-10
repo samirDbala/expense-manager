@@ -13,6 +13,7 @@
     "@heroicons/react": "^2.2.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.6.0",
     "react-router-dom": "6.8",
     "react-toastify": "^11.0.5"
   },
