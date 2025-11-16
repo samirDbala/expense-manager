@@ -598,3 +598,175 @@ table a {
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--round-full);
 }
+
+/* login box container */
+.auth-card {
+  background-color: hsl(var(--bkg));
+  padding: 2.8rem;
+  border-radius: var(--round-lg);
+  box-shadow: 0 8px 26px hsl(var(--muted) / 0.28);
+  width: 430px;
+  display: grid;
+  gap: var(--space-md);
+  margin-top: var(--space-lg);
+}
+
+/* space between input fields */
+.auth-fields {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+/* password input with eye icon */
+.password-box {
+  position: relative;
+  width: 100%;
+}
+.password-box input {
+  width: 100%;
+  padding-right: 48px; /* space for eye icon */
+}
+.eye-toggle {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  opacity: 0.7;
+  transition: 0.2s;
+}
+.eye-toggle:hover {
+  opacity: 1;
+}
+
+/* "or continue with" text */
+.continue-text {
+  text-align: center;
+  color: hsl(var(--muted));
+  margin-top: 18px;
+  font-size: var(--fs-300);
+}
+
+.social-login {
+  display: flex !important;
+  flex-direction: row !important;   /* icons in one line */
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* social login button */
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* space between icon and text */
+  padding: 10px 20px; /* wider button */
+  border-radius: var(--round-sm);
+  border: 2px solid hsl(var(--accent));
+  background-color: hsl(var(--bkg));
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+/* icon inside the social button */
+.social-btn img {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* hover animation */
+.social-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 3px hsl(var(--bkg)), 0 0 0 6px hsl(var(--accent));
+}
+
+/* continue with text styling */
+.continue-text {
+  position: relative;
+  text-align: center;
+  color: hsl(var(--muted));
+  margin: 18px 0 14px;
+  font-size: var(--fs-300);
+}
+
+/* thin lines on both sides of the text */
+.continue-text::before,
+.continue-text::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 24%; /* shorter width so lines do not overlap */
+  height: 2px;
+  background: hsl(var(--light));
+}
+
+/* left line */
+.continue-text::before {
+  left: 0;
+}
+
+/* right line */
+.continue-text::after {
+  right: 0;
+}
+
+/* top small login text */
+.small-top-text {
+  margin-top: -12px;
+  font-size: var(--fs-300);
+  color: hsl(var(--muted));
+}
+
+.small-top-text a {
+  color: hsl(var(--accent));
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.small-top-text a:hover {
+  text-decoration: underline;
+}
+
+.auth-card h1 {
+  font-size: 1.9rem; /* smaller than the big homepage heading */
+  font-weight: 700; /* keeps it bold */
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+}
+
+.small-top-text {
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+}
+
+.small-top-text a:hover,
+.small-top-text a:focus-visible {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.btn--accent {
+  --backdrop: hsl(var(--accent));
+  --color: hsl(var(--bkg));
+  background-color: var(--backdrop);
+  border: 2px solid hsl(var(--accent));
+  color: var(--color);
+  transition: box-shadow 300ms, background-color 300ms;
+}
+
+.btn--accent:hover,
+.btn--accent:focus-visible {
+  background-color: hsl(var(--accent));
+  color: hsl(var(--bkg));
+  box-shadow: 0 0 0 3px hsl(var(--bkg)), 0 0 0 6px hsl(var(--accent));
+}
+
+

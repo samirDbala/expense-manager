@@ -1,43 +1,29 @@
 import { useState } from "react";
 import { Form } from "react-router-dom";
+import { EyeIcon, EyeSlashIcon, UserPlusIcon } from "@heroicons/react/24/solid";
 
 import googleIcon from "../assets/google.jpg";
 import githubIcon from "../assets/github.jpg";
 
-// icons
-import { EyeIcon, EyeSlashIcon, UserPlusIcon } from "@heroicons/react/24/solid";
-
 // assets
 import illustration from "../assets/illustration.jpg";
 
-const Intro = () => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
     <div className="intro">
       <div>
-        <h1>
-          Take Control of <span className="accent">Your Money</span>
-        </h1>
-        <p>
-          Personal budgeting is the secret to financial freedom. Start your
-          journey today.
-        </p>
+        <h1>Welcome Back</h1>
+        <p>Log in to manage your budgets and track your expenses.</p>
 
         <div className="auth-card">
-          <h1>Create an account</h1>
+          <h1>Log in</h1>
           <p className="small-top-text">
-            Already have an account? <a href="/login">Log in</a>
+            Don’t have an account? <a href="/">Create one</a>
           </p>
+
           <Form method="post" className="auth-fields">
-            <input
-              type="text"
-              name="userName"
-              required
-              placeholder="Enter your name"
-              aria-label="Your Name"
-              autoComplete="given-name"
-            />
             <input
               type="email"
               name="email"
@@ -46,6 +32,7 @@ const Intro = () => {
               aria-label="Email"
               autoComplete="email"
             />
+
             <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
@@ -53,7 +40,7 @@ const Intro = () => {
                 required
                 placeholder="Enter your password"
                 aria-label="Password"
-                autoComplete="new-password"
+                autoComplete="current-password"
               />
               <button
                 type="button"
@@ -68,12 +55,13 @@ const Intro = () => {
               </button>
             </div>
 
-            <input type="hidden" name="_action" value="newUser" />
+            <input type="hidden" name="_action" value="loginUser" />
 
             <button type="submit" className="btn btn--dark">
-              <span>Create Account</span>
+              <span>Login</span>
               <UserPlusIcon width={18} />
             </button>
+
             <p className="continue-text">Or continue with</p>
 
             <div className="social-login">
@@ -96,4 +84,4 @@ const Intro = () => {
   );
 };
 
-export default Intro;
+export default Login;
