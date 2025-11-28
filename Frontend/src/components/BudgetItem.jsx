@@ -10,22 +10,33 @@ import {
   formatCurrency,
   formatPercentage,
 } from "../helpers";
+import { useEffect, useState } from "react";
 
-const BudgetItem = ({ budget, showDelete = false }) => {
-  const { id, name, amount, color } = budget;
-  const spent = calculateSpentByBudget(id);
+const BudgetItem = ({ budget, showDelete = false, expenses}) => {
+
+  const [spent, setSpent] = useState(0);
+  const { color } = budget;
+
+  useEffect(() =>{
+    const getSpent = async () => {
+      const amountSpent = await calculateSpentByBudget(budget._id);
+      setSpent(amountSpent);
+    }
+    getSpent();
+  }, [budget._id, expenses])
+
   return (
     <div className="budget" style={{ "--accent": color }}>
       <div className="progress-text">
-        <h3>{name}</h3>
-        <p>{formatCurrency(amount)} Budgeted</p>
+        <h3>{budget.budgetTitle}</h3>
+        <p>{formatCurrency(budget.budgetAmount)} Budget</p>
       </div>
-      <progress max={amount} value={spent}>
-        {formatPercentage(spent / amount)}
+      <progress max={budget.budgetAmount} value={spent}>
+        {formatPercentage(spent / budget.budgetAmount)}
       </progress>
       <div className="progress-text">
         <small>{formatCurrency(spent)} Spent</small>
-        <small>{formatCurrency(amount - spent)} Remaining</small>
+        <small>{formatCurrency(budget.budgetAmount - spent)} Remaining</small>
       </div>
       {showDelete ? (
         <div className="flex-sm">
@@ -41,7 +52,7 @@ const BudgetItem = ({ budget, showDelete = false }) => {
         </div>
       ) : (
         <div className="flex-sm">
-          <Link to={`/budget/${id}`} className="btn">
+          <Link to={`/budget/${budget._id}`} className="btn">
             <span>View Details</span>
             <BanknotesIcon width={20} />
           </Link>

@@ -6,30 +6,15 @@ import toast from "react-hot-toast";
 
 // helpers
 import { deleteItem, getAllMatchingItems } from "../helpers";
+import axios from "axios";
 
-export function deleteBudget({ params }) {
+export  async function deleteBudget({ params }) { 
   try {
-    deleteItem({
-      key: "budgets",
-      id: params.id,
-    });
-
-    const associatedExpenses = getAllMatchingItems({
-      category: "expenses",
-      key: "budgetId",
-      value: params.id,
-    });
-
-    associatedExpenses.forEach((expense) => {
-      deleteItem({
-        key: "expenses",
-        id: expense.id,
-      });
-    });
-
+    const budget = await axios.delete(`${import.meta.env.VITE_API_ENDPOINT}/api/budget/removebudget/${params.id}`)
     toast.success("Budget deleted successfully!");
   } catch (e) {
     throw new Error("There was a problem deleting your budget.");
   }
-  return redirect("/");
+  
+  return redirect("/dashboard");
 }

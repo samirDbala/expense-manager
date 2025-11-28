@@ -1,5 +1,7 @@
 // rrd imports
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
+
+import {Link } from "react-router-dom"
 
 // library imports
 import toast from "react-hot-toast";
@@ -8,11 +10,13 @@ import toast from "react-hot-toast";
 import Table from "../components/Table";
 
 // helpers
-import { deleteItem, fetchData } from "../helpers";
+import { deleteItem, fetchData, fetchExpense } from "../helpers";
+import { deleteExpense } from "../actions/deleteExpense";
+import { HomeIcon, ArrowUturnLeftIcon } from "@heroicons/react/24/solid";
 
 // loader
 export async function expensesLoader() {
-  const expenses = fetchData("expenses");
+  const expenses = await fetchExpense()
   return { expenses };
 }
 
@@ -23,10 +27,9 @@ export async function expensesAction({request}) {
 
     if (_action === "deleteExpense") {
       try {
-        deleteItem({
-          key: "expenses",
-          id: values.expenseId,
-        });
+        const result = await deleteExpense({
+          expenseId: values.expenseId
+        })
         return toast.success("Expense deleted!");
       } catch (e) {
         throw new Error("There was a problem deleting your expense.");
@@ -36,6 +39,7 @@ export async function expensesAction({request}) {
 
 const ExpensesPage = () => {
   const { expenses } = useLoaderData();
+  const navigate = useNavigate();
 
   return (
     <div className="grid-lg">
@@ -48,7 +52,19 @@ const ExpensesPage = () => {
           <Table expenses={expenses} />
         </div>
       ) : (
-        <p>No Expenses To Show</p>
+        <>
+          <p>No Expenses To Show</p>
+          <div className="flex-md">
+          <button className="btn btn--dark" onClick={() => navigate(-1)}>
+              <ArrowUturnLeftIcon width={20} />
+              <span>Go Back</span>
+          </button>
+          <Link to="/" className="btn btn--dark">
+            <HomeIcon width={20} />
+            <span>Go Home</span>
+          </Link>
+          </div>
+        </>
       )}
     </div>
   );

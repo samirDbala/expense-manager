@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
+import { Form, useActionData } from "react-router-dom";
 
 import googleIcon from "../assets/google.jpg";
 import githubIcon from "../assets/github.jpg";
@@ -12,6 +12,7 @@ import illustration from "../assets/illustration.jpg";
 
 const Intro = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const errors = useActionData()
 
   return (
     <div className="intro">
@@ -32,12 +33,15 @@ const Intro = () => {
           <Form method="post" className="auth-fields">
             <input
               type="text"
-              name="userName"
+              name="username"
               required
               placeholder="Enter your name"
               aria-label="Your Name"
               autoComplete="given-name"
-            />
+            /> 
+            
+            {errors?.errors.username && <span className="intro-error">{errors?.errors.username}</span>}
+            
             <input
               type="email"
               name="email"
@@ -46,6 +50,9 @@ const Intro = () => {
               aria-label="Email"
               autoComplete="email"
             />
+
+            {errors?.errors.email && <span className="intro-error">{errors?.errors.email}</span>}
+            
             <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
@@ -54,7 +61,7 @@ const Intro = () => {
                 placeholder="Enter your password"
                 aria-label="Password"
                 autoComplete="new-password"
-              />
+              /> 
               <button
                 type="button"
                 className="eye-toggle"
@@ -66,7 +73,9 @@ const Intro = () => {
                   <EyeSlashIcon width={20} />
                 )}
               </button>
-            </div>
+            </div> 
+            
+            {errors?.errors.password && <span className="intro-error">{errors?.errors.password}</span>}
 
             <input type="hidden" name="_action" value="newUser" />
 
@@ -82,7 +91,7 @@ const Intro = () => {
                 <span>Google</span>
               </button>
 
-              <button type="button" className="social-btn wide">
+              <button onClick={()=>{ window.location.href = `https://github.com/login/oauth/authorize?client_id=${import.meta.env.VITE_API_CLIENT_ID}&scope=user:email`;}} type="button" className="social-btn wide">
                 <img src={githubIcon} alt="GitHub" />
                 <span>GitHub</span>
               </button>

@@ -1,29 +1,68 @@
 import { useState } from "react";
-import { Form } from "react-router-dom";
-import { EyeIcon, EyeSlashIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { Form, redirect, useActionData, useNavigate } from "react-router-dom";
 
 import googleIcon from "../assets/google.jpg";
 import githubIcon from "../assets/github.jpg";
 
+// icons
+import { EyeIcon, EyeSlashIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import {GoogleLogin, useGoogleLogin} from "@react-oauth/google";
+
 // assets
 import illustration from "../assets/illustration.jpg";
+import axios from "axios";
 
-const Login = () => {
+const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const errors = useActionData()
+  const navigate = useNavigate()
+
+  const GoogleLogin = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+    
+      try {
+        const res = await axios.post(`${import.meta.env.VITE_API_ENDPOINT}/auth/user/google-login`, {
+          access_token: tokenResponse.access_token,
+        })
+
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        navigate("/dashboard");
+
+      } catch (error) {
+        console.log("Backend error:", error);
+      }
+    },
+    onError: (err) => console.log("GOOGLE ERROR:", err),
+  })
 
   return (
     <div className="intro">
       <div>
-        <h1>Welcome Back</h1>
-        <p>Log in to manage your budgets and track your expenses.</p>
+        <h1>
+          Take Control of <span className="accent">Your Money</span>
+        </h1>
+        <p>
+          Personal budgeting is the secret to financial freedom. Start your
+          journey today.
+        </p>
 
         <div className="auth-card">
-          <h1>Log in</h1>
+          <h1>Create an account</h1>
           <p className="small-top-text">
-            Don’t have an account? <a href="/registration">Create one</a>
+            Already have an account? <a href="/login">Log in</a>
           </p>
-
           <Form method="post" className="auth-fields">
+            <input
+              type="text"
+              name="username"
+              required
+              placeholder="Enter your name"
+              aria-label="Your Name"
+              autoComplete="given-name"
+            /> 
+            
+            {errors?.errors?.username && <span className="intro-error">{errors?.errors.username}</span>}
+            
             <input
               type="email"
               name="email"
@@ -33,6 +72,8 @@ const Login = () => {
               autoComplete="email"
             />
 
+            {errors?.errors?.email && <span className="intro-error">{errors?.errors.email}</span>}
+            
             <div className="password-box">
               <input
                 type={showPassword ? "text" : "password"}
@@ -40,8 +81,8 @@ const Login = () => {
                 required
                 placeholder="Enter your password"
                 aria-label="Password"
-                autoComplete="current-password"
-              />
+                autoComplete="new-password"
+              /> 
               <button
                 type="button"
                 className="eye-toggle"
@@ -53,18 +94,19 @@ const Login = () => {
                   <EyeSlashIcon width={20} />
                 )}
               </button>
-            </div>
+            </div> 
+            
+            {errors?.errors?.password && <span className="intro-error">{errors?.errors.password}</span>}
 
-            <input type="hidden" name="_action" value="loginUser" />
+            <input type="hidden" name="_action" value="newUser" />
             <button type="submit" className="btn btn--dark">
-              <span>Login</span>
+              <span>Create Account</span>
               <UserPlusIcon width={18} />
             </button>
-
             <p className="continue-text">Or continue with</p>
 
             <div className="social-login">
-              <button type="button" className="social-btn wide">
+              <button onClick={()=> GoogleLogin()} type="button" className="social-btn wide">
                 <img src={googleIcon} alt="Google" />
                 <span>Google</span>
               </button>
@@ -83,4 +125,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Registration;

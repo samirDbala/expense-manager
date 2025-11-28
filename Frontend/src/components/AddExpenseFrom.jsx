@@ -37,7 +37,7 @@ const AddExpenseFrom = ({ budgets }) => {
       <h2 className="h3">
         Add New{" "}
         <span className="accent">
-          {budgets.length === 1 && `${budgets.map((budg) => budg.name)}`}
+          {budgets.length === 1 && `${budgets.map((budg) => budg.budgetTitle)}`}
         </span>{" "}
         Expense
       </h2>
@@ -68,14 +68,16 @@ const AddExpenseFrom = ({ budgets }) => {
           </div>
         </div>
         <div className="grid-xs" hidden={budgets.length === 1}>
+          <input type="hidden" name="newExpenseBudgetTitle" 
+          value={budgets.length === 1? budgets[0].budgetTitle: budgets.find(b => b._id === selectedBudgetId)?.budgetTitle}/>
           <label htmlFor="newExpenseBudget">Budget Category</label>
-          <select name="newExpenseBudget" id="newExpenseBudget" required>
+          <select name="newExpenseBudget" id={budgets._id} required>
             {budgets
               .sort((a, b) => a.createdAt - b.createdAt)
               .map((budget) => {
                 return (
-                  <option key={budget.id} value={budget.id}>
-                    {budget.name}
+                  <option key={budget._id} value={budget._id}>
+                    {budget.budgetTitle}
                   </option>
                 );
               })}

@@ -1,5 +1,5 @@
 // rrd imports
-import { Link, useLoaderData } from "react-router-dom";
+import { Link, Navigate, redirect, useLoaderData } from "react-router-dom";
 
 // library imports
 import toast from "react-hot-toast";
@@ -16,34 +16,30 @@ import {
   createBudget,
   createExpense,
   deleteItem,
+  fetchBudget,
   fetchData,
+  fetchExpense,
+  fetchUsername,
   waait,
 } from "../helpers";
+import { registerAction } from "../actions/registerAction";
+import { useEffect, useState } from "react";
+import { deleteExpense } from "../actions/deleteExpense";
 
 // loader
-export function dashboardLoader() {
-  const userName = fetchData("userName");
-  const budgets = fetchData("budgets");
-  const expenses = fetchData("expenses");
-  return { userName, budgets, expenses };
+export async function dashboardLoader() {
+  const username = await fetchUsername()
+  const budgets = await fetchBudget();
+  const expenses = await fetchExpense();
+
+  return { username, budgets, expenses };
 }
 
 // action
 export async function dashboardAction({ request }) {
-  await waait();
-
   const data = await request.formData();
   const { _action, ...values } = Object.fromEntries(data);
-
-  // new user submission
-  if (_action === "newUser") {
-    try {
-      localStorage.setItem("userName", JSON.stringify(values.userName));
-      return toast.success(`Welcome, ${values.userName}`);
-    } catch (e) {
-      throw new Error("There was a problem creating your account.");
-    }
-  }
+  console.log(values)
 
   if (_action === "createBudget") {
     try {
@@ -59,24 +55,27 @@ export async function dashboardAction({ request }) {
 
   if (_action === "createExpense") {
     try {
-      createExpense({
+        await createExpense({
         name: values.newExpense,
         amount: values.newExpenseAmount,
         budgetId: values.newExpenseBudget,
+        budgetTitle: values.newExpenseBudgetTitle
       });
-      return toast.success(`Expense ${values.newExpense} Created!`);
+
+      toast.success(`Expense ${values.newExpense} Created!`);
+      return null
     } catch (e) {
-      throw new Error("There was a problem creating your expense.");
+      throw new Error("it's not working");
     }
   }
 
   if (_action === "deleteExpense") {
     try {
-      deleteItem({
-        key: "expenses",
-        id: values.expenseId,
-      });
-      return toast.success("Expense deleted!");
+      const result = await deleteExpense({
+        expenseId: values.expenseId
+      })
+      toast.success("Expense deleted! in Dashboard.jsx");
+      return result
     } catch (e) {
       throw new Error("There was a problem deleting your expense.");
     }
@@ -84,13 +83,14 @@ export async function dashboardAction({ request }) {
 }
 
 const Dashboard = () => {
-  const { userName, budgets, expenses } = useLoaderData();
+  const { username, budgets, expenses } = useLoaderData();
+
   return (
     <>
-      {userName ? (
+      {username ? (
         <div className="dashboard">
           <h1>
-            Welcome back, <span className="accent">{userName}</span>
+            Welcome back, <span className="accent">{username}</span>
           </h1>
           <div className="grid-sm">
             {budgets && budgets.length > 0 ? (
@@ -102,7 +102,7 @@ const Dashboard = () => {
                 <h2>Existing Budgets</h2>
                 <div className="budgets">
                   {budgets.map((budget) => (
-                    <BudgetItem key={budget.id} budget={budget} />
+                    <BudgetItem key={budget._id} expenses={expenses} budget={budget} />
                   ))}
                 </div>
                 {expenses && expenses.length > 0 && (
@@ -110,11 +110,11 @@ const Dashboard = () => {
                     <h2>Recent Expenses</h2>
                     <Table
                       expenses={expenses
-                        .sort((a, b) => b.createdAt - a.createdAt)
+                        .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
                         .slice(0, 8)}
                     />
                     {expenses.length > 8 && (
-                      <Link to="expenses" className="btn btn--dark">
+                      <Link to="/expenses" className="btn btn--dark">
                         View all expenses
                       </Link>
                     )}
@@ -131,7 +131,7 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <Intro />
+        <Navigate to='/registration' replace/>
       )}
     </>
   );

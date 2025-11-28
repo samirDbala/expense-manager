@@ -8,23 +8,23 @@ import wave from "../assets/wave.svg";
 import Nav from "../components/Nav";
 
 // helpers functions
-import { fetchData } from "../helpers";
+import { fetchUsername } from "../helpers";
 
 // utils
 import KeyboardManager from "../utils/KeyboardManager";
 
 // loader
-export function mainLoader() {
-  const userName = fetchData("userName");
-  return { userName };
+export async function mainLoader() {
+  const username = await fetchUsername()
+  return { username };
 }
 
 const Main = () => {
-  const { userName } = useLoaderData();
+  const { username } = useLoaderData();
   return (
     <div className="layout">
       <KeyboardManager />
-      <Nav userName={userName}/>
+      <Nav username={username}/>
       <main>
         <Outlet />
       </main>

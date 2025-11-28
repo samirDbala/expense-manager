@@ -8,11 +8,13 @@ import Main, { mainLoader } from "./layouts/Main";
 
 // Actions
 import { logoutAction } from "./actions/logout";
+import { loginAction } from "./actions/loginAction";
 import { deleteBudget } from "./actions/deleteBudget";
 
 
 // Routes
 import Dashboard, { dashboardAction, dashboardLoader } from "./pages/Dashboard";
+import Registration from "./pages/Registration";
 import Error from "./pages/Error";
 import ExpensesPage, {
   expensesAction,
@@ -22,6 +24,11 @@ import BudgetPage, { budgetAction, budgetLoader } from "./pages/BudgetPage";
 
 // NEW — login page import
 import Login from "./pages/Login";
+import { deleteUserAction } from "./actions/deleteUserAction";
+import { githubLoginAction } from "./actions/githubLoginAction,";
+import { registerAction } from "./actions/registerAction";
+import LandingPage from "./pages/LandingPage";
+import { landingLoader } from "./loaders/landingLoader";
 
 const router = createBrowserRouter([
   {
@@ -32,9 +39,23 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <LandingPage />,
+        errorElement: <Error />,
+        loader: landingLoader,
+      },
+
+      {
+        path: 'dashboard',
         element: <Dashboard />,
         loader: dashboardLoader,
         action: dashboardAction,
+        errorElement: <Error />,
+      },
+
+      {
+        path: 'registration',
+        element: <Registration />,
+        action: registerAction,
         errorElement: <Error />,
       },
 
@@ -42,6 +63,13 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+        action: loginAction,
+        errorElement: <Error />,
+      },
+
+      {
+        path: "auth/github",
+        loader: githubLoginAction,
         errorElement: <Error />,
       },
 
@@ -58,6 +86,7 @@ const router = createBrowserRouter([
           },
         ],
       },
+
       {
         path: "expenses",
         element: <ExpensesPage />,
@@ -65,10 +94,16 @@ const router = createBrowserRouter([
         action: expensesAction,
         errorElement: <Error />,
       },
+
+      {
+        path: "delete",
+        action: deleteUserAction,
+      },
+
       {
         path: "logout",
         action: logoutAction,
-      },
+      }
     ],
   },
 ]);

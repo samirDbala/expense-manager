@@ -401,6 +401,12 @@ select {
   max-width: 25ch;
 }
 
+.intro-error {
+  color: red;
+  font-size: 10px;
+  margin-top: -10px;
+}
+
 /* dashboard */
 .dashboard {
   display: -ms-grid;

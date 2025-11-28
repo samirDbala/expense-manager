@@ -1,5 +1,5 @@
 // rrd imports
-import { Form, NavLink } from "react-router-dom";
+import { Form, NavLink, redirect } from "react-router-dom";
 
 // library
 import {
@@ -11,22 +11,23 @@ import {
 // assets
 import logomark from "../assets/logomark.svg";
 
-const Nav = ({ userName }) => {
+const Nav = ({ username }) => {
+
   return (
     <nav>
       {/* Logo */}
-      <NavLink to="/" aria-label="Go to home">
+      <NavLink to='/dashboard' aria-label="Go to home">
         <img src={logomark} alt="" height={30} />
         <span>Expense Manager</span>
       </NavLink>
 
       {/* Show buttons only when user is logged in */}
-      {userName && (
+      {username && (
         <div style={{ display: "flex", gap: "10px" }}>
           {/* Delete User button */}
           <Form
             method="post"
-            action="/logout"
+            action="/delete"
             onSubmit={(event) => {
               if (
                 !confirm("Do you really want to delete your account and data?")
